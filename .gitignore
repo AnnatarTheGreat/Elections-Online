@@ -1,0 +1,11 @@
+.vscode/
+obj/
+Migrations/
+bin/
+wwwroot/
+Properties/
+appsettings.Development.json
+appsettings.json
+PresidentElectionsOnline.csproj
+PresidentElectionsOnline.sln
+План сайта.png
