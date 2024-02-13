@@ -1,40 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using PresidentSite.Models;
 using PresidentSite.Models.Data;
-
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
-
-
-
 
 namespace PresidentElectionsOnline.Controllers;
 
 public class RegistrationController : Controller
 {
-    private IVoter voter;
+    
     private readonly IConfiguration configuration;
-    public RegistrationController(IVoter voter)
-    {
-        this.voter = voter;
-        
-    }
 
     [HttpGet]
     public IActionResult Index() => View();
 
-   [HttpGet]
-   
-   public IActionResult Error (string errorMessage)
-   {
-    ViewBag.Message = errorMessage;
-    return View("~/Views/Registration/Error.cshtml");
-   }
-
     [HttpPost]
     public IActionResult Index (Voter voter)
     {
-        voter.Ballot = null;
         if (!ModelState.IsValid) 
         {
             string errorMessage = "";
@@ -53,7 +35,6 @@ public class RegistrationController : Controller
                 }
             }
             return RedirectToAction("Error", "Registration", new { errorMessage });
-        
         }
 
         using var context = new ElectorCounterContext(configuration);
@@ -82,6 +63,11 @@ public class RegistrationController : Controller
             return View ("RegistrationResult");
         }
     }
-
+    [HttpGet]
+   public IActionResult Error (string errorMessage)
+   {
+    ViewBag.Message = errorMessage;
+    return View("~/Views/Registration/Error.cshtml");
+   }
 
 }

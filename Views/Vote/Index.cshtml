@@ -1,7 +1,9 @@
 @{
     ViewData["Title"] = "Vote";
 }
-
+<div class="text-center">
+    <h5>@Html.Raw(ViewBag.Message)</h5>
+</div>
 
 @foreach (var ballot in Model)
 {
@@ -9,7 +11,7 @@
         <div class="card-body">
             <h5 class="card-title">@ballot.LastName</h5>
             <p class="card-text">Some information about this president.</p>
-            <form method="post" action="/Vote/Manage">
+            <form method="post" action="/Vote/Index">
                 <input type="hidden" name="Id" value="@ballot.Id" />
                 <button type="submit" class="btn btn-primary">Get Details</button>
             </form>

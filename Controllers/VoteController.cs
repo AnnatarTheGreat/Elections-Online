@@ -8,26 +8,29 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class VoteController : Controller
 {
-  
-
-    private IVoter voter;
-
     private readonly IConfiguration configuration;
-    public VoteController (IVoter voter)
-    {
-        this.voter = voter;
-    }
 
     [Authorize]
     [HttpGet]
     public IActionResult Index()
     {
         var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
+        if (currentVoterJson == null)
+        {
+            string errorMessage = "Please log in to vote.";
+            TempData["Message"] = errorMessage;
+            return RedirectToAction("Index", "Authorization");
+        }
         var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
+        
         if (currentVoter.Ballot == null)
         {
             using var context = new ElectorCounterContext(configuration);
             var ballots = context.Ballots.ToList();
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"];
+            }
             return View(ballots);
         }
         else 
@@ -39,7 +42,7 @@ public class VoteController : Controller
     }
     [Authorize]
     [HttpPost]
-    public IActionResult Manage(Ballot ballot)
+    public IActionResult Index(Ballot ballot)
     {
         var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
         var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
@@ -77,5 +80,3 @@ public class VoteController : Controller
     }
 
 }
-
-

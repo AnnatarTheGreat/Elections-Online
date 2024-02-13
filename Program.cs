@@ -5,7 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddSingleton<IBallot, Ballot>();
 builder.Services.AddSingleton<IVoter, Voter>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -14,7 +13,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             options.Cookie.Name = "cookie";
             options.LoginPath = "/Authorization";
             options.AccessDeniedPath = "/Home/Privacy";
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            options.ExpireTimeSpan = TimeSpan.FromHours(2);
         });
 builder.Services.AddAuthorization(options => 
 {
@@ -26,11 +25,7 @@ builder.Services.AddSession(options =>
 });
 
 
-
-
-
 var app = builder.Build();
-
 
 if (!app.Environment.IsDevelopment())
 {

@@ -17,9 +17,4 @@ public class ElectorCounterContext : DbContext
         string? connectionString = configuration.GetConnectionString("DataBase");
         optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     }
-
-
-    
-
-
 }
