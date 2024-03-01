@@ -11,8 +11,6 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class Authorization : Controller
 {
-    private readonly IConfiguration configuration;
-
 
     [HttpGet]
     public IActionResult Index()
@@ -27,7 +25,7 @@ public class Authorization : Controller
     [HttpPost]
     public IActionResult Index(Voter voter)
     {
-        using var context = new ElectorCounterContext(configuration);
+        using var context = new ElectorCounterContext();
         var existingVoterOrNot = context.Voters.FirstOrDefault(p => (p.Name == voter.Name)
                                                                 && (p.Surname == voter.Surname));
         if (existingVoterOrNot != null)

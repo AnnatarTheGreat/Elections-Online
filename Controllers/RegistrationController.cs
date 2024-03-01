@@ -9,7 +9,6 @@ namespace PresidentElectionsOnline.Controllers;
 public class RegistrationController : Controller
 {
     
-    private readonly IConfiguration configuration;
 
     [HttpGet]
     public IActionResult Index() => View();
@@ -25,7 +24,8 @@ public class RegistrationController : Controller
                 if (item.Value.ValidationState == ModelValidationState.Invalid)
                 {
                     var propertyInfo =typeof(Voter).GetProperty(item.Key);
-                    var displayAttribute = (DisplayAttribute)propertyInfo.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+                    var displayAttribute = (DisplayAttribute)propertyInfo
+                                                            .GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
                     var displayName = displayAttribute?.Name ?? item.Key;
                     errorMessage += $"<br/>Error in {displayName} - ";
                     foreach (var error in item.Value.Errors)
@@ -37,7 +37,7 @@ public class RegistrationController : Controller
             return RedirectToAction("Error", "Registration", new { errorMessage });
         }
 
-        using var context = new ElectorCounterContext(configuration);
+        using var context = new ElectorCounterContext();
         var existingVoterOrNot = context.Voters.FirstOrDefault(p => (p.Name == voter.Name)
                                                                 && (p.Surname == voter.Surname)
                                                                 && (p.Age==voter.Age));
