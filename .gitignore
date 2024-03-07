@@ -10,3 +10,5 @@ Migrations/
 bin/
 wwwroot/
 Properties/
+ElectionsTest.csproj
+PresidentElections.sln
