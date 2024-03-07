@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Authorization";
+}
+
+<div class="text-center">
+    <h5>@Html.Raw(ViewBag.Message)</h5>
+</div>
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<form method="post">
+    <p>
+        <label>Name:</label><br />
+        <input type="text" name="Name"/>
+    </p>
+     <p>
+        <label>Surname:</label><br />
+        <input type="text" name="Surname"/>
+    </p>
+    <p>
+        <input type="submit" value="Log in"
+    </p>
+</form>

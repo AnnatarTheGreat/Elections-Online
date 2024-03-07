@@ -10,17 +10,16 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class Authorization : Controller
 {
-
     [HttpGet]
     public IActionResult Index()
     {
+        
         if (TempData["Message"] != null)
         {
             ViewBag.Message = TempData["Message"];
         }
         return View();
     }
-
     [HttpPost]
     public IActionResult Index(Voter voter)
     {
