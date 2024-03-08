@@ -2,7 +2,7 @@
 
 This project is a web application designed to facilitate online elections by connecting to a database. Registered users have the opportunity to cast their votes for one of three candidates or options. After voting, users can view real-time election results on the web page.
 
-![Site](/Pic/Site.jpg)
+![Site](Site.jpg)
 
 ## Features of this project include:
 
