@@ -11,8 +11,12 @@
     <h1>   </h1>
     <h2> So simple! </h2>
     <h1>   </h1>
-    <h1> @Html.ActionLink("Lets get started", "Index", "Registration")</h1>
-    <h1>   </h1>
-    <img src="can.jpg">
+    <h1>
+        <a style="text-decoration:none" asp-controller="Registration" asp-action="Index">
+            Lets get started
+        </a>
+    </h1>
+        <h1>   </h1>
+        <img src="can.jpg">
 
 </div>
