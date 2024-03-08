@@ -8,23 +8,23 @@ This project is a web application designed to facilitate online elections by con
 
 -Registration
 
-![Registration](Registration.jpg) 
+![Registration](/Pic/Registration.jpg) 
 
 
 -Authentication (Login and Logout)
 
-![Authorization](Authorization.jpg) 
+![Authorization](/Pic/Authorization.jpg) 
 
 
 -Voting
 
 ![Vote](Vote.jpg) 
-
+<img src="Vote.jpg" alt="Vote" width="250" height="250"/>
 
 -Viewing election results (displays data retrieved from the databases)
 
 ![Results](Results.jpg) 
-
+<img src="Results.jpg" alt="Results" width="250" height="250">
 
 -Retrieving specific data from the REST API (for example, querying /api/voters/Biden returns information about users who voted for this candidate)
 
