@@ -18,8 +18,8 @@ This project is a web application designed to facilitate online elections by con
 
 -Voting
 
-![Vote](/Pic/Vote.jpg = 250x250) 
-<img src="/Pic/Vote.jpg" alt="Vote" width="250" height="250"/>
+![Vote](Vote.jpg = 250x250) 
+<img src="Vote.jpg" alt="Vote" width="250" height="250"/>
 
 -Viewing election results (displays data retrieved from the databases)
 
