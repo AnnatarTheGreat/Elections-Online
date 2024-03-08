@@ -8,12 +8,12 @@ This project is a web application designed to facilitate online elections by con
 
 -Registration
 
-![Registration](/Pic/Registration.jpg = 250x250) 
+![Registration](/Pic/Registration.jpg) 
 <img src="/Pic/Results.jpg" alt="Results" width="250" height="250"/>
 
 -Authentication (Login and Logout)
 
-![Authorization](/Pic/Authorization.jpg = 250x250) 
+![Authorization](/Pic/Authorization.jpg) 
 <img src="/Pic/Authorization.jpg" alt="Authorization" width="250" height="250"/>
 
 -Voting
