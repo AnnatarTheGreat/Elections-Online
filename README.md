@@ -24,7 +24,7 @@ This project is a web application designed to facilitate online elections by con
 -Viewing election results (displays data retrieved from the databases)
 
 ![Results](Results.jpg) 
-<img src="Results.jpg" alt="Results" width="250" height="250">
+<img src="Results.jpg" alt="Results" width="250" height="100">
 
 -Retrieving specific data from the REST API (for example, querying /api/voters/Biden returns information about users who voted for this candidate)
 
