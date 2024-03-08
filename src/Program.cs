@@ -1,12 +1,21 @@
 using PresidentSite.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using PresidentSite.Models.Data;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IBallot, Ballot>();
 builder.Services.AddSingleton<IVoter, Voter>();
+
+string? connectionString = builder.Configuration.GetConnectionString("Database");
+
+builder.Services.AddDbContext<ElectorCounterContext>(
+    options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+);
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
         {

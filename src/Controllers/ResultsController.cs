@@ -9,7 +9,13 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class ResultsController : Controller
 {
-  
+    private readonly ElectorCounterContext _electorCounterContext;
+    public ResultsController(ElectorCounterContext electorCounterContext)
+    {
+        _electorCounterContext = electorCounterContext;
+    }
+
+
     [Authorize]
     public IActionResult Index()
     {
@@ -24,7 +30,7 @@ public class ResultsController : Controller
         
         if (currentVoter.Ballot != null)
         {
-        using var context = new ElectorCounterContext();
+        var context = _electorCounterContext;
         var ballots = context.Ballots.ToList();
         return View(ballots);
         }

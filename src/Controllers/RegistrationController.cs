@@ -8,7 +8,11 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class RegistrationController : Controller
 {
-
+    private readonly ElectorCounterContext _electorCounterContext;
+    public RegistrationController(ElectorCounterContext electorCounterContext)
+    {
+        _electorCounterContext = electorCounterContext;
+    }
 
     [HttpGet]
     public IActionResult Index() => View();
@@ -37,7 +41,7 @@ public class RegistrationController : Controller
             return RedirectToAction("Error", "Registration", new { errorMessage });
         }
 
-        using var context = new ElectorCounterContext();
+        var context = _electorCounterContext;
         var existingVoterOrNot = context.Voters.FirstOrDefault(p => (p.Name == voter.Name)
                                                                 && (p.Surname == voter.Surname)
                                                                 && (p.Age == voter.Age));

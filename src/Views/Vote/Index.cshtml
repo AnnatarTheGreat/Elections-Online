@@ -1,0 +1,15 @@
+@model IEnumerable<PresidentSite.Models.Ballot>
+
+
+@{
+    ViewData["Title"] = "Vote";
+}
+<div class="text-center">
+    <h5>@Html.Raw(ViewBag.Message)</h5>
+</div>
+
+
+@foreach (var item in Model)
+{
+    <partial name = "BallotCard" model = "item"/>
+}

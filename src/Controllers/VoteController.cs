@@ -8,6 +8,12 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class VoteController : Controller
 {
+    private readonly ElectorCounterContext _electorCounterContext;
+    public VoteController(ElectorCounterContext electorCounterContext)
+    {
+        _electorCounterContext = electorCounterContext;
+    }
+
 
     [Authorize]
     [HttpGet]
@@ -24,7 +30,7 @@ public class VoteController : Controller
 
         if (currentVoter.Ballot == null)
         {
-            using var context = new ElectorCounterContext();
+            var context = _electorCounterContext;
             var ballots = context.Ballots.ToList();
             if (TempData["Message"] != null)
             {
@@ -46,7 +52,7 @@ public class VoteController : Controller
         var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
         var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
 
-        using var context = new ElectorCounterContext();
+        var context = _electorCounterContext;
         var voter = context.Voters.FirstOrDefault(p => p.Name == currentVoter.Name && p.Surname == currentVoter.Surname);
         var currentBallot = context.Ballots.FirstOrDefault(p => p.Id == ballot.Id);
         if (currentBallot != null)

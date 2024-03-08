@@ -8,8 +8,13 @@ using System.Text.Json;
 
 namespace PresidentElectionsOnline.Controllers;
 
-public class Authorization : Controller
+public class AuthorizationController : Controller
 {
+    private readonly ElectorCounterContext _electorCounterContext;
+    public AuthorizationController(ElectorCounterContext electorCounterContext)
+    {
+        _electorCounterContext = electorCounterContext;
+    }
     [HttpGet]
     public IActionResult Index()
     {
@@ -20,22 +25,24 @@ public class Authorization : Controller
         }
         return View();
     }
+
+
     [HttpPost]
     public IActionResult Index(Voter voter)
     {
-        using var context = new ElectorCounterContext();
+        var context = _electorCounterContext;
         var existingVoterOrNot = context.Voters.FirstOrDefault(p => (p.Name == voter.Name)
                                                                 && (p.Surname == voter.Surname));
         if (existingVoterOrNot != null)
         {
             CreateCookie(existingVoterOrNot);
-            string message = $"{voter.Name}, добро пожаловать!";
+            string message = $"{voter.Name}, welcome!";
             ViewBag.Message = message;
             return RedirectToAction("AuthorizationResult", "Authorization", new { message });
         }
         else
         {
-            string errorMessage = "Неверно указаны данные или пользователь не зарегистрирован!";
+            string errorMessage = "The data is incorrect or the user is not registered!";
             ViewBag.Message = errorMessage;
             return RedirectToAction("Error", "Authorization", new { errorMessage });
         }
