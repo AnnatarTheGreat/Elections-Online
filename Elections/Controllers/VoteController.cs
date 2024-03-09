@@ -8,11 +8,13 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class VoteController : Controller
 {
-    private readonly ElectorCounterContext _electorCounterContext;
-    public VoteController(ElectorCounterContext electorCounterContext)
+    private IRepository repository;
+    
+    public VoteController(IRepository repository)
     {
-        _electorCounterContext = electorCounterContext;
-    }
+        this.repository = repository;
+    }   
+
 
 
     [Authorize]
@@ -30,8 +32,7 @@ public class VoteController : Controller
 
         if (currentVoter.Ballot == null)
         {
-            var context = _electorCounterContext;
-            var ballots = context.Ballots.ToList();
+            var ballots = repository.BallotsToList();
             if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"];
@@ -52,14 +53,13 @@ public class VoteController : Controller
         var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
         var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
 
-        var context = _electorCounterContext;
-        var voter = context.Voters.FirstOrDefault(p => p.Name == currentVoter.Name && p.Surname == currentVoter.Surname);
-        var currentBallot = context.Ballots.FirstOrDefault(p => p.Id == ballot.Id);
+        var voter = repository.FindVoter().FirstOrDefault(p => p.Name == currentVoter.Name && p.Surname == currentVoter.Surname);
+        var currentBallot = repository.FindBallotById(ballot);
         if (currentBallot != null)
         {
             voter.Ballot = currentBallot.LastName;
             currentBallot.Votes++;
-            context.SaveChanges();
+            repository.Save();
             
             HttpContext.Session.SetString("CurrentVoter", JsonSerializer.Serialize(voter));
             string message = $"You have voted for {currentBallot.LastName}!\nCheck current results of elections!";

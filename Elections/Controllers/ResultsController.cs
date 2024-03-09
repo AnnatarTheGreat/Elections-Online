@@ -9,16 +9,18 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class ResultsController : Controller
 {
-    private readonly ElectorCounterContext _electorCounterContext;
-    public ResultsController(ElectorCounterContext electorCounterContext)
+    private IRepository repository;
+    
+    public ResultsController(IRepository repository)
     {
-        _electorCounterContext = electorCounterContext;
-    }
+        this.repository = repository;
+    } 
 
 
     [Authorize]
     public IActionResult Index()
     {
+        
         var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
         if (currentVoterJson == null)
         {
@@ -30,8 +32,7 @@ public class ResultsController : Controller
         
         if (currentVoter.Ballot != null)
         {
-        var context = _electorCounterContext;
-        var ballots = context.Ballots.ToList();
+        var ballots = repository.BallotsToList();
         return View(ballots);
         }
 

@@ -10,11 +10,15 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class AuthorizationController : Controller
 {
-    private readonly ElectorCounterContext _electorCounterContext;
-    public AuthorizationController(ElectorCounterContext electorCounterContext)
+    private IRepository repository;
+    
+    public AuthorizationController(IRepository repository)
     {
-        _electorCounterContext = electorCounterContext;
-    }
+        this.repository = repository;
+    }   
+
+
+
     [HttpGet]
     public IActionResult Index()
     {
@@ -30,9 +34,7 @@ public class AuthorizationController : Controller
     [HttpPost]
     public IActionResult Index(Voter voter)
     {
-        var context = _electorCounterContext;
-        var existingVoterOrNot = context.Voters.FirstOrDefault(p => (p.Name == voter.Name)
-                                                                && (p.Surname == voter.Surname));
+        var existingVoterOrNot = repository.FindVoter().FirstOrDefault(p => p.Name == voter.Name && p.Surname == voter.Surname);
         if (existingVoterOrNot != null)
         {
             CreateCookie(existingVoterOrNot);
@@ -47,21 +49,6 @@ public class AuthorizationController : Controller
             return RedirectToAction("Error", "Authorization", new { errorMessage });
         }
 
-    }
-
-    [HttpGet]
-    public IActionResult Error(string errorMessage)
-    {
-        ViewBag.Message = errorMessage;
-        return View("~/Views/Authorization/Error.cshtml");
-    }
-
-    [HttpGet]
-    public IActionResult AuthorizationResult(string message)
-    {
-        ViewBag.Message = message;
-        return View("~/Views/Authorization/AuthorizationResult.cshtml");
-        
     }
 
     public void CreateCookie(Voter voter)
@@ -84,5 +71,22 @@ public class AuthorizationController : Controller
             new ClaimsPrincipal(claimsIdentity),
             authProperties);
     }
+
+    
+    [HttpGet]
+    public IActionResult Error(string errorMessage)
+    {
+        ViewBag.Message = errorMessage;
+        return View("~/Views/Authorization/Error.cshtml");
+    }
+
+    [HttpGet]
+    public IActionResult AuthorizationResult(string message)
+    {
+        ViewBag.Message = message;
+        return View("~/Views/Authorization/AuthorizationResult.cshtml");
+        
+    }
+
 
 }

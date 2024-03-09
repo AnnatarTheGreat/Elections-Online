@@ -8,11 +8,13 @@ namespace PresidentElectionsOnline.Controllers;
 
 public class RegistrationController : Controller
 {
-    private readonly ElectorCounterContext _electorCounterContext;
-    public RegistrationController(ElectorCounterContext electorCounterContext)
+    private IRepository repository;
+    
+    public RegistrationController(IRepository repository)
     {
-        _electorCounterContext = electorCounterContext;
-    }
+        this.repository = repository;
+    }   
+
 
     [HttpGet]
     public IActionResult Index() => View();
@@ -28,9 +30,7 @@ public class RegistrationController : Controller
                 if (item.Value.ValidationState == ModelValidationState.Invalid)
                 {
                     var propertyInfo = typeof(Voter).GetProperty(item.Key);
-                    var displayAttribute = (DisplayAttribute)propertyInfo
-                                                            .GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
-                    var displayName = displayAttribute?.Name ?? item.Key;
+                    var displayName = repository.DisplayAttribute(propertyInfo)?.Name ?? item.Key;
                     errorMessage += $"<br/>Error in {displayName} - ";
                     foreach (var error in item.Value.Errors)
                     {
@@ -41,11 +41,10 @@ public class RegistrationController : Controller
             return RedirectToAction("Error", "Registration", new { errorMessage });
         }
 
-        var context = _electorCounterContext;
-        var existingVoterOrNot = context.Voters.FirstOrDefault(p => (p.Name == voter.Name)
-                                                                && (p.Surname == voter.Surname)
-                                                                && (p.Age == voter.Age));
-        if (existingVoterOrNot != null)
+        var existingVoter = repository.FindVoter().FirstOrDefault(p => (p.Name == voter.Name)
+                                            && (p.Surname == voter.Surname)
+                                            && (p.Age == voter.Age));;
+        if (existingVoter != null)
         {
             string errorMessage = "This voter is already exists!";
             ViewBag.Message = errorMessage;
@@ -59,8 +58,8 @@ public class RegistrationController : Controller
                 Surname = voter.Surname,
                 Age = voter.Age
             };
-            context.Voters.Add(newVoter);
-            context.SaveChanges();
+            repository.InsertVoter(newVoter);
+            repository.Save();
 
             string message = $"{voter.Name} {voter.Surname}, You are now registered!";
             ViewBag.Message = message;

@@ -7,16 +7,18 @@ namespace PresidentElectionsOnline.Controllers;
 [Route("api/voters/{lastName}")]
 public class GetSpecVotersController : Controller
 {   
-    private readonly ElectorCounterContext _electorCounterContext;
-    public GetSpecVotersController(ElectorCounterContext electorCounterContext)
+    private IRepository repository;
+    
+    public GetSpecVotersController(IRepository repository)
     {
-        _electorCounterContext = electorCounterContext;
-    }
-   [HttpGet]
+        this.repository = repository;
+    }   
+
+
+    [HttpGet]
     public ActionResult<IEnumerable<Ballot>> Index(string lastName)
     {
-        var context = _electorCounterContext;
-        var voters = context.Voters.Where(p => p.Ballot == lastName).ToList();
+        var voters = repository.GetVotersByBallots(lastName).ToList();
         return View(voters);
     }
 }
