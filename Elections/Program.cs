@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IBallot, Ballot>();
 builder.Services.AddSingleton<IVoter, Voter>();
-builder.Services.AddSingleton<IRepository, Repository>();
+builder.Services.AddTransient<IRepository, Repository>();
 
 string? connectionString = builder.Configuration.GetConnectionString("Database");
 

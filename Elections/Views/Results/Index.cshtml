@@ -5,8 +5,8 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 @foreach (var ballot in Model)
-{
-    <div class="alert alert-success" role="alert">
+{   
+    <div class="alert alert-success" role="alert" style="text-align: center;">
         @ballot.LastName - @ballot.Votes
     </div>
 }

@@ -7,12 +7,7 @@ namespace PresidentElectionsOnline.Controllers;
 public class HomeController : Controller
 
 {
-    private IRepository repository;
     
-    public HomeController(IRepository repository)
-    {
-        this.repository = repository;
-    }   
 
     private readonly ILogger<HomeController> _logger;
 
