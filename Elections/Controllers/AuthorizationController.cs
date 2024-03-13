@@ -34,7 +34,7 @@ public class AuthorizationController : Controller
     [HttpPost]
     public IActionResult Index(Voter voter)
     {
-        var existingVoterOrNot = repository.FindVoter().FirstOrDefault(p => p.Name == voter.Name && p.Surname == voter.Surname);
+        var existingVoterOrNot = repository.FindVoter(p => p.Name == voter.Name && p.Surname == voter.Surname);
         if (existingVoterOrNot != null)
         {
             CreateCookie(existingVoterOrNot);
@@ -77,14 +77,14 @@ public class AuthorizationController : Controller
     public IActionResult Error(string errorMessage)
     {
         ViewBag.Message = errorMessage;
-        return View("~/Views/Authorization/Error.cshtml");
+        return View();
     }
 
     [HttpGet]
     public IActionResult AuthorizationResult(string message)
     {
         ViewBag.Message = message;
-        return View("~/Views/Authorization/AuthorizationResult.cshtml");
+        return View();
         
     }
 

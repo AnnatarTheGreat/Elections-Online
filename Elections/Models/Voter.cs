@@ -10,7 +10,7 @@ public class Voter :  IVoter
     [BindNever]
     public int Id {get; set;}
 
-    [Required(ErrorMessage = "Name must have more than 0 symbols!")]
+    [Required]
     [StringLength(20, MinimumLength = 3, ErrorMessage = "Name must have more than 3 symbols!")]
     [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Name must contain only letters")]
     [Display(Name = "Name")]

@@ -53,8 +53,8 @@ public class VoteController : Controller
         var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
         var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
 
-        var voter = repository.FindVoter().FirstOrDefault(p => p.Name == currentVoter.Name && p.Surname == currentVoter.Surname);
-        var currentBallot = repository.FindBallotById(ballot);
+        var voter = repository.FindVoter(p => p.Name == currentVoter.Name && p.Surname == currentVoter.Surname);
+        var currentBallot = repository.FindBallot(p => p.Id == ballot.Id);
         if (currentBallot != null)
         {
             voter.Ballot = currentBallot.LastName;

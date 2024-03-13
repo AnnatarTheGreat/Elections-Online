@@ -22,14 +22,14 @@ public class Repository : IRepository
         context.SaveChanges();
     }
 
-    public Microsoft.EntityFrameworkCore.DbSet<Voter> FindVoter()
+    public Voter FindVoter(Func<Voter, bool> predicate)
     {
-        return context.Voters;
+        return context.Voters.FirstOrDefault(predicate); 
     }
 
-    public Ballot? FindBallotById(Ballot ballot)
+    public Ballot? FindBallot(Func<Ballot, bool> predicate)
     {
-        return context.Ballots.FirstOrDefault(p => p.Id == ballot.Id);
+        return context.Ballots.FirstOrDefault(predicate);
     }
 
     public void InsertVoter(Voter voter)
@@ -42,9 +42,9 @@ public class Repository : IRepository
         return context.Ballots.ToList();
     }
 
-    public IQueryable<Voter> GetVotersByBallots(string lastName)
+    public IEnumerable<Voter> GetVoters(Func<Voter, bool> predicate)
     {
-        return context.Voters.Where(p => p.Ballot == lastName);
+        return context.Voters.Where(predicate);
     }
 
     public DisplayAttribute? DisplayAttribute(System.Reflection.PropertyInfo? propertyInfo)

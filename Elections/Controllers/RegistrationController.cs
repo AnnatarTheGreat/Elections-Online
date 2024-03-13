@@ -41,9 +41,9 @@ public class RegistrationController : Controller
             return RedirectToAction("Error", "Registration", new { errorMessage });
         }
 
-        var existingVoter = repository.FindVoter().FirstOrDefault(p => (p.Name == voter.Name)
+        var existingVoter = repository.FindVoter(p => (p.Name == voter.Name)
                                             && (p.Surname == voter.Surname)
-                                            && (p.Age == voter.Age));;
+                                            && (p.Age == voter.Age));
         if (existingVoter != null)
         {
             string errorMessage = "This voter is already exists!";

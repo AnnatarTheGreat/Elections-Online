@@ -5,7 +5,7 @@ using PresidentSite.Models;
 namespace PresidentElectionsOnline.Controllers;
 
 [Route("api/voters/{lastName}")]
-public class GetSpecVotersController : Controller
+public class GetSpecVotersController : ControllerBase
 {   
     private IRepository repository;
     
@@ -18,7 +18,7 @@ public class GetSpecVotersController : Controller
     [HttpGet]
     public ActionResult<IEnumerable<Ballot>> Index(string lastName)
     {
-        var voters = repository.GetVotersByBallots(lastName).ToList();
-        return View(voters);
+        var voters = repository.GetVoters(p => p.Ballot == lastName);
+        return Ok(voters);// View(voters);
     }
 }
