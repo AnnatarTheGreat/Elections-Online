@@ -19,6 +19,6 @@ public class GetSpecVotersController : ControllerBase
     public ActionResult<IEnumerable<Ballot>> Index(string lastName)
     {
         var voters = repository.GetVoters(p => p.Ballot == lastName);
-        return Ok(voters);// View(voters);
+        return Ok(voters);
     }
 }

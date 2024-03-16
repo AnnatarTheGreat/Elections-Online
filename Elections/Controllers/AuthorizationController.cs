@@ -42,13 +42,9 @@ public class AuthorizationController : Controller
             ViewBag.Message = message;
             return RedirectToAction("AuthorizationResult", "Authorization", new { message });
         }
-        else
-        {
             string errorMessage = "The data is incorrect or the user is not registered!";
             ViewBag.Message = errorMessage;
             return RedirectToAction("Error", "Authorization", new { errorMessage });
-        }
-
     }
 
     public void CreateCookie(Voter voter)
@@ -85,7 +81,6 @@ public class AuthorizationController : Controller
     {
         ViewBag.Message = message;
         return View();
-        
     }
 
 

@@ -7,6 +7,8 @@ namespace PresidentSite.Models;
 
 public class Voter :  IVoter
 {
+    public static Voter NotFound = new Voter();
+
     [BindNever]
     public int Id {get; set;}
 

@@ -30,7 +30,7 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="Authorization" asp-action="Index">Log in</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="LogOut" asp-action="Index">Log out</a>
+                            <a class="nav-link text-white " asp-area="" asp-controller="LogOut" asp-action="Index">Log out</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Registration" asp-action="Index">Registration</a>
@@ -54,6 +54,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

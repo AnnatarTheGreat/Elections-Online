@@ -1,14 +1,18 @@
 using PresidentSite.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using SignalRResults.Hubs;
 using PresidentSite.Models.Data;
 using Microsoft.EntityFrameworkCore;
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.SignalR;
 
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IBallot, Ballot>();
 builder.Services.AddSingleton<IVoter, Voter>();
 builder.Services.AddTransient<IRepository, Repository>();
+builder.Services.AddSignalR();
 
 string? connectionString = builder.Configuration.GetConnectionString("Database");
 
@@ -50,10 +54,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-
+app.MapHub<ResultsHub>("/showResults");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
 

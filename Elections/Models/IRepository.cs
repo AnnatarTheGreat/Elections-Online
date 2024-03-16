@@ -1,13 +1,15 @@
 
 using System.ComponentModel.DataAnnotations;
 using PresidentSite.Models;
+using PresidentSite.Models.Data;
 
 public interface IRepository
 {
-
     void Save();
 
     void InsertVoter(Voter voter);
+
+    void Vote(Voter voter, Ballot ballot);
 
     List<Ballot> BallotsToList();
 
@@ -19,6 +21,6 @@ public interface IRepository
 
     DisplayAttribute? DisplayAttribute(System.Reflection.PropertyInfo? propertyInfo);
 
-    
+     IEnumerable<T> GetPropertyOfBallots<T>(Func<Ballot, T> predicate);
 }
 

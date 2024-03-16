@@ -1,12 +1,15 @@
 @model PresidentSite.Models.Ballot
 
-<div class="card" style="width: 18rem; display: inline-block">
+<div class="card" style="width: 25rem; display: inline-block; color: rgb(0, 0, 0); text-align: center;">
     <div class="card-body">
         <h5 class="card-title">@Model.LastName</h5>
         <p class="card-text">Some important information about @Model.LastName</p>
         <form method="post" action="/Vote/Index">
             <input type="hidden" name="Id" value="@Model.Id" />
-            <button type="submit" class="btn btn-primary">Vote</button>
+            <button style= "font-size: 40px" type="submit" class="btn btn-primary vote">Vote</button>
         </form>
     </div>
 </div>
+
+
+

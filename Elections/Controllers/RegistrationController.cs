@@ -44,7 +44,7 @@ public class RegistrationController : Controller
         var existingVoter = repository.FindVoter(p => (p.Name == voter.Name)
                                             && (p.Surname == voter.Surname)
                                             && (p.Age == voter.Age));
-        if (existingVoter != null)
+        if (existingVoter != Voter.NotFound)
         {
             string errorMessage = "This voter is already exists!";
             ViewBag.Message = errorMessage;

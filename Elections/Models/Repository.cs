@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using PresidentSite.Models;
 using PresidentSite.Models.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
+using SignalRResults.Hubs;
 
 public class Repository : IRepository
 {
@@ -24,12 +26,12 @@ public class Repository : IRepository
 
     public Voter FindVoter(Func<Voter, bool> predicate)
     {
-        return context.Voters.FirstOrDefault(predicate); 
+        return context.Voters.FirstOrDefault(predicate) ?? Voter.NotFound; 
     }
 
     public Ballot? FindBallot(Func<Ballot, bool> predicate)
     {
-        return context.Ballots.FirstOrDefault(predicate);
+        return context.Ballots.FirstOrDefault(predicate) ?? Ballot.NotFound;
     }
 
     public void InsertVoter(Voter voter)
@@ -52,5 +54,17 @@ public class Repository : IRepository
         return (DisplayAttribute)propertyInfo.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
     }
 
-    
+
+    public IEnumerable<T> GetPropertyOfBallots<T>(Func<Ballot, T> predicate)
+    {
+        return context.Ballots.Select(predicate);
+    }
+
+    public void Vote(Voter voter, Ballot ballot)
+    {
+        voter.Ballot = ballot.LastName;
+        ballot.Votes++;
+        
+    }
+
 }
