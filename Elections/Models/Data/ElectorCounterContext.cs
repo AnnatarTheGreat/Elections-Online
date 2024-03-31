@@ -1,7 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 namespace PresidentSite.Models.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-public class ElectorCounterContext : DbContext
+public class ElectorCounterContext : IdentityDbContext<Voter>
 {
     public ElectorCounterContext(DbContextOptions<ElectorCounterContext> options)
         : base(options)

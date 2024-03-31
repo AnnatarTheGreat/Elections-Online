@@ -1,10 +1,9 @@
 using PresidentSite.Models;
 using Microsoft.AspNetCore.Mvc;
-using PresidentSite.Models.Data;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using SignalRResults.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Identity;
 
 namespace PresidentElectionsOnline.Controllers;
 
@@ -13,23 +12,19 @@ public class ResultsController : Controller
     private IRepository repository;
     private IHubContext<ResultsHub> hubContext;
 
-    public ResultsController(IRepository repository, IHubContext<ResultsHub> hubContext)
+    private UserManager<Voter> userManager;
+
+    public ResultsController(IRepository repository, IHubContext<ResultsHub> hubContext, UserManager<Voter> userManager)
     {
         this.repository = repository;
         this.hubContext = hubContext;
+        this.userManager = userManager;
     }
 
     [Authorize]
     public async Task<IActionResult> Index()
     {
-        var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
-        if (currentVoterJson == null)
-        {
-            string errorMessage = "Please log in to see results.";
-            TempData["Message"] = errorMessage;
-            return RedirectToAction("Index", "Authorization");
-        }
-        var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
+        var currentVoter = await userManager.GetUserAsync(User);
 
         if (currentVoter.Ballot != null)
         {

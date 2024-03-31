@@ -1,7 +1,6 @@
-
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using PresidentSite.Models;
-using PresidentSite.Models.Data;
 
 public interface IRepository
 {

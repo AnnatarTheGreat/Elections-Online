@@ -13,10 +13,7 @@ public class Tests : IClassFixture<WebApplicationFactory<Program>>
 
     [Theory]
     [InlineData("/")]
-    [InlineData("/Authorization")]
-    [InlineData("/Registration")]
     [InlineData("/Vote")]
-    [InlineData("/LogOut")]
     [InlineData("/Results")]
     [InlineData("/api/voters/Putin")]
     [InlineData("/api/voters/Macron")]

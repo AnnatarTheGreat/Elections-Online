@@ -1,15 +1,6 @@
-
-
-
-
-
-using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using PresidentSite.Models;
 using PresidentSite.Models.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using SignalRResults.Hubs;
-
 public class Repository : IRepository
 {
     private ElectorCounterContext context;
@@ -66,5 +57,7 @@ public class Repository : IRepository
         ballot.Votes++;
         
     }
+
+    
 
 }

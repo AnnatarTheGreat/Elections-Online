@@ -1,38 +1,31 @@
-using System.Security.Claims;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PresidentSite.Models;
-using PresidentSite.Models.Data;
 using SignalRResults.Hubs;
+using Microsoft.AspNetCore.Identity;
 namespace PresidentElectionsOnline.Controllers;
+
 
 public class VoteController : Controller
 {
     private IRepository repository;
+    private UserManager<Voter> userManager;
     private IHubContext<ResultsHub> resultsHub;
-    public VoteController(IRepository repository, IHubContext<ResultsHub> resultsHub)
+    public VoteController(IRepository repository, IHubContext<ResultsHub> resultsHub, UserManager<Voter> userManager)
     {
         this.repository = repository;
         this.resultsHub = resultsHub;
+        this.userManager = userManager;
     }   
 
 
 
     [Authorize]
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
-        if (currentVoterJson == null)
-        {
-            string errorMessage = "Please log in to vote.";
-            TempData["Message"] = errorMessage;
-            return RedirectToAction("Index", "Authorization");
-        }
-        var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
-
+        var currentVoter = await userManager.GetUserAsync(User);
         if (currentVoter.Ballot == null)
         {
             var ballots = repository.BallotsToList();
@@ -53,17 +46,16 @@ public class VoteController : Controller
     [HttpPost]
     public async Task<IActionResult> Index(Ballot ballot)
     {
-        var currentVoterJson = HttpContext.Session.GetString("CurrentVoter");
-        var currentVoter = JsonSerializer.Deserialize<Voter>(currentVoterJson);
+        var currentVoter = await userManager.GetUserAsync(User);
 
-        var voter = repository.FindVoter(p => p.Name == currentVoter.Name && p.Surname == currentVoter.Surname);
+        //var voter = repository.FindVoter(p => p.Name == currentVoter.Name && p.Surname == currentVoter.Surname);
         var currentBallot = repository.FindBallot(p => p.Id == ballot.Id);
         if (currentBallot != null)
         {
-            repository.Vote(voter, currentBallot);
+            repository.Vote(currentVoter, currentBallot);
             repository.Save();
             await resultsHub.Clients.All.SendAsync("ShowResults", currentBallot.Id, currentBallot.Votes);
-            HttpContext.Session.SetString("CurrentVoter", JsonSerializer.Serialize(voter));
+            //HttpContext.Session.SetString("CurrentVoter", JsonSerializer.Serialize(voter));
             string message = $"You have voted for {currentBallot.LastName}!\nCheck current results of elections!";
             ViewBag.Message = message;
             return RedirectToAction("VotingResults", "Vote", new { message });

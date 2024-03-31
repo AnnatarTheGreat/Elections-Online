@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using PresidentSite.Models.Data;
 using PresidentSite.Models;
 
 namespace PresidentElectionsOnline.Controllers;
